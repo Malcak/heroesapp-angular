@@ -1,0 +1,118 @@
+<h1>Listado de Heroes</h1>
+<hr />
+<div class="row">
+  <div class="col text-right">
+    <button
+      (click)="actualizarId('nuevo')"
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#staticBackdrop"
+    >
+      <i class="fa fa-plus"></i>
+      Agregar
+    </button>
+  </div>
+</div>
+
+<table
+  *ngIf="!cargando && heroes.length > 0"
+  class="table mt-3 animated fadeIn"
+>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Poder</th>
+      <th scope="col">Vivo</th>
+      <th scope="col">Herramientas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let heroe of heroes; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ heroe.nombre }}</td>
+      <td>{{ heroe.poder }}</td>
+      <td>
+        <label *ngIf="heroe.vivo" class="badge badge-success">Vivo</label>
+        <label *ngIf="!heroe.vivo" class="badge badge-danger">Muerto</label>
+      </td>
+      <td>
+        <!-- Button trigger modal -->
+        <button
+          (click)="actualizarId(heroe.id)"
+          type="button"
+          class="btn btn-info mr-1"
+          data-toggle="modal"
+          data-target="#staticBackdrop"
+        >
+          <i class="fa fa-pen"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="borrarHeroe(heroe, i)"
+        >
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div
+  *ngIf="!cargando && heroes.length === 0"
+  class="alert alert-warning text-center mt-3 animated fadeIn"
+  role="alert"
+>
+  <h4 class="alert-heading">No hay registros</h4>
+  <p>
+    <i class="fa fa-exclamation fa-2x"></i>
+  </p>
+</div>
+
+<div
+  *ngIf="cargando"
+  class="alert alert-info text-center mt-3 animated fadeIn"
+  role="alert"
+>
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <i class="fa fa-times text-white"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-heroe [id]="this.id"></app-heroe>
+      </div>
+      <div class="modal-footer bg-dark text-white"></div>
+    </div>
+  </div>
+</div>
